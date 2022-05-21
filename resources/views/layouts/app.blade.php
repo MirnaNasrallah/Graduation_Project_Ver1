@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
 </head>
 <body>
+    @include('sweetalert::alert')
         <!-- Js Plugins -->
         <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.min.js')}}"></script>

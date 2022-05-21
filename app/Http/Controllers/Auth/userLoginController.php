@@ -15,7 +15,7 @@ class userLoginController extends Controller
 {
     public function loginOpen()
     {
-       return view('auth.login');
+        return view('auth.login');
     }
 
     public function login(Request $request)
@@ -27,14 +27,20 @@ class userLoginController extends Controller
         ]);
 
         $user = User::where('email', $request->input('email'))->first();
-        if(Hash::check($request->input('password'), $user->password) &&
-        $user->level_id == 1 &&
-         Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]))
-        {
+        if (
+            Hash::check($request->input('password'), $user->password) &&
+            $user->level_id == 1 &&
+            Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])
+        ) {
             return redirect()->route('userProfileNew');
+        } elseif (
+            Hash::check($request->input('password'), $user->password) &&
+            $user->level_id == 2 &&
+            Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])
+        ) {
+            return redirect()->route('viewPremiumProfile');
         } else {
-            return back()->with('error','your username and password are wrong.');
+            return back()->with('error', 'your username and password are wrong.');
         }
-
     }
 }

@@ -43,12 +43,27 @@ class wearsController extends BaseController
     }
     public function womenShopTshirts()
     {
-        $wears = Wears::where([['gender', 'women'], ['category', 'Tshirt']])->get();
+        $wears = Wears::where([['gender', 'women'], ['category', 'T-shirt']])->get();
         return view('shops.wears.wears', compact('wears'));
     }
     public function womenShopJeans()
     {
         $wears = Wears::where([['gender', 'women'], ['category', 'jeans']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function womenShopBags()
+    {
+        $wears = Wears::where([['gender', 'women'], ['category', 'bag']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function womenShopAccessories()
+    {
+        $wears = Wears::where([['gender', 'women'], ['category', 'Accessories']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function womenShopShoes()
+    {
+        $wears = Wears::where([['gender', 'women'], ['category', 'shoes']])->get();
         return view('shops.wears.wears', compact('wears'));
     }
     public function menShopCoats()
@@ -77,9 +92,24 @@ class wearsController extends BaseController
         $wears = Wears::where([['gender', 'men'], ['category', 'jeans']])->get();
         return view('shops.wears.wears', compact('wears'));
     }
+    public function menShopBags()
+    {
+        $wears = Wears::where([['gender', 'men'], ['category', 'bag']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function menShopAccessories()
+    {
+        $wears = Wears::where([['gender', 'men'], ['category', 'Accessories']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function menShopShoes()
+    {
+        $wears = Wears::where([['gender', 'men'], ['category', 'shoes']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
     public function kidsShopCoats()
     {
-        $wears = Wears::where([['gender', 'kids'], ['category', 'coat']])->get();
+        $wears = Wears::where([['gender', ''], ['category', 'coat']])->get();
         return view('shops.wears.wears', compact('wears'));
     }
     public function kidsShopJackets()
@@ -105,6 +135,21 @@ class wearsController extends BaseController
     public function kidsShopJeans()
     {
         $wears = Wears::where([['gender', 'kids'], ['category', 'jeans']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function kidsShopBags()
+    {
+        $wears = Wears::where([['gender', 'kids'], ['category', 'bag']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function kidsShopAccessories()
+    {
+        $wears = Wears::where([['gender', 'kids'], ['category', 'Accessories']])->get();
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function kidsShopShoes()
+    {
+        $wears = Wears::where([['gender', 'kids'], ['category', 'shoes']])->get();
         return view('shops.wears.wears', compact('wears'));
     }
     public function shopXS()
@@ -137,17 +182,7 @@ class wearsController extends BaseController
         $wears = Wears::where('size' , 'xxl')->get();
         return view('shops.wears.wears', compact('wears'));
     }
-    public function sortPrice()
-    {
-        $wears = Wears::all();
-
-        DB::table('wears')
-            ->select('*')
-            ->orderBy('price')
-            ->get();
-        return view('shops.wears.wears', compact('wears'));
-    }
-
+ 
     public function priceLimitWears(Request $request)
     {
         $min = str_replace('$','',$request->get('minamount'));
@@ -164,13 +199,62 @@ class wearsController extends BaseController
 
 
 
+//-------------------------------PREMIUM------------------------//
 
-
-    // public function shopEvent()
-    // {
-    //     $wears = Wears::all();
-    //     $user = Auth::user();
-    //     return view('shops.wears.event', compact('wears','user'));
-    // }
+    public function EventClassy()
+    {
+        $wears = Wears::all();
+        $gender = Auth::user()->gender;
+        if($gender == 'female')
+        {
+            $wears = Wears::where([['gender', 'women'], ['event', 'classy']])->get();
+        } elseif($gender == 'male')
+        {
+            $wears = Wears::where([['gender', 'men'], ['event', 'classy']])->get();
+        }
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function EventParty()
+    {
+        $wears = Wears::all();
+        $gender = Auth::user()->gender;
+        if($gender == 'female')
+        {
+            $wears = Wears::where([['gender', 'women'], ['event', 'party']])->get();
+        }
+        elseif($gender == 'male')
+        {
+            $wears = Wears::where([['gender', 'men'], ['event', 'party']])->get();
+        }
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function EventCasual()
+    {
+        $wears = Wears::all();
+        $gender = Auth::user()->gender;
+        if($gender == 'female')
+        {
+            $wears = Wears::where([['gender', 'women'], ['event', 'casual']])->get();
+        }
+        elseif($gender == 'male')
+        {
+            $wears = Wears::where([['gender', 'men'], ['event', 'casual']])->get();
+        }
+        return view('shops.wears.wears', compact('wears'));
+    }
+    public function EventFormal()
+    {
+        $wears = Wears::all();
+        $gender = Auth::user()->gender;
+        if($gender == 'female')
+        {
+            $wears = Wears::where([['gender', 'women'], ['event', 'formal']])->get();
+        }
+        elseif($gender == 'male')
+        {
+            $wears = Wears::where([['gender', 'men'], ['event', 'formal']])->get();
+        }
+        return view('shops.wears.wears', compact('wears'));
+    }
 
 }

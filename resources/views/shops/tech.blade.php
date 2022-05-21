@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> Main Page</a>
                     <span>Tech</span>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                             <div class="range-slider">
                                 <div class="price-input">
                                     <p>Price:</p>
-                                    <form action="{{route('priceLimitTech')}}" method="GET">
+                                    <form action="{{ route('priceLimitTech') }}" method="GET">
                                         <input type="text" id="minamount" name="minamount">
                                         <input type="text" id="maxamount" name="maxamount">
                                         <br>
@@ -84,38 +84,79 @@
                 </div>
             </div>
 
+
+
             <div class="col-lg-9 col-md-9">
                 <div class="card-row ">
                     <div class=" row row-cols-1 row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
 
 
                         @if ($tech->isNotEmpty())
+
                             @foreach ($tech as $item)
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ $item->product_img }}">
-                                        <div class="label new">New</div>
-                                        <ul class="product__hover">
-                                            <li><a href="img/shop/book_1.jpg" class="image-popup"><span
-                                                        class="arrow_expand"></span></a></li>
-                                            <li><a href="{{ url('addtowishlist') }}/{{ $item->id }}"><span
+                                @if ($item->sale > 0)
+                                    <div class="product__item sale">
+                                        <div class="product__item__pic set-bg scaling"
+                                            data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
+                                            <div class="label sale">Sale {{ $item->sale }}%</div>
+                                            <ul class="product__hover">
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a
+                                                    href="{{ url('addtowishlist') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
                                                         class="icon_heart_alt"></span></a></li>
-                                            <li><a href="{{ url('addtocartTech') }}/{{ $item->id }}"><span
+                                            <li><a
+                                                    href="{{ url('addtoCart') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
                                                         class="icon_bag_alt"></span></a></li>
 
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">{{ $item->product_name }}</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            </ul>
                                         </div>
-                                        <div class="product__price">${{ $item->price }}</div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ $item->book_name }}</a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="product__price">$ {{ $item->price }}
+                                                <span>$ {{ ($item->price * 100) / (100 - $item->sale) }}</span>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg"
+                                            data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
+                                            <ul class="product__hover">
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ url('addtowishlist') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
+                                                            class="icon_heart_alt"></span></a></li>
+                                                <li><a
+                                                        href="{{ url('addtoCart') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
+                                                            class="icon_bag_alt"></span></a></li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ $item->book_name }}</a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="product__price">${{ $item->price }}</div>
+                                        </div>
+                                    </div>
+                                @endif
                             @endforeach
                         @else
                             <div
@@ -127,9 +168,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+
     <!-- </div>
     </div> -->
 </section>

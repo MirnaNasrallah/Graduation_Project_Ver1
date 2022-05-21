@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\APIs\CartApi;
+use App\Http\APIs\LoginApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('login',[LoginApi::class, 'login']);
+Route::get('cart',[CartApi::class, 'cart']);

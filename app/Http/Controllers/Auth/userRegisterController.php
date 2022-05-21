@@ -25,7 +25,9 @@ class userRegisterController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->gender = $request->gender;
         $user->password = Hash::make($request->password);
+        
         // $user->role_id = 2;
         // $request->validate([
         //     'name' => 'required',

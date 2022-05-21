@@ -19,41 +19,61 @@ class foodieController extends BaseController
         $foodie = Foodie::all();
         return view('shops.foodie', compact('foodie'));
     }
-    // public function shopCoats()
-    // {
-    //     $wears = Wears::all();
-    //     return view('shops.wears.coats', compact('wears'));
-    // }
+    public function shopDesserts()
+    {
+        $foodie = Foodie::where('category', 'desserts')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
+    public function shopSnacks()
+    {
+        $foodie = Foodie::where('category', 'Snacks')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
+    public function shopVeggies()
+    {
+        $foodie = Foodie::where('category', 'veggies')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
+    public function shopFruits()
+    {
+        $foodie = Foodie::where('category', 'fruits')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
+    public function shopDressings()
+    {
+        $foodie = Foodie::where('category', 'dressings')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
+    public function shopLowCal()
+    {
+        $foodie = Foodie::where('calories', 'low')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
+    public function shopMidCal()
+    {
+        $foodie = Foodie::where('calories', 'mid')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
+    public function shopHighCal()
+    {
+        $foodie = Foodie::where('calories', 'high')->get();
+        return view('shops.foodie', compact('foodie'));
+    }
 
-    // public function shopJeans()
-    // {
-    //     $wears = Wears::all();
-    //     return view('shops.wears.jeans', compact('wears'));
-    // }
-    // public function shopDresses()
-    // {
-    //     $wears = Wears::all();
-    //     return view('shops.wears.dresses', compact('wears'));
-    // }
 
-    // public function shopEvent()
-    // {
-    //     $wears = Wears::all();
-    //     $user = Auth::user();
-    //     return view('shops.wears.event', compact('wears','user'));
-    // }
+
     public function priceLimitFoodie(Request $request)
     {
         $min = str_replace('$','',$request->get('minamount'));
 
         $max = str_replace('$','',$request->get('maxamount'));
-        $food = DB::table('food')
+        $foodie = DB::table('food')
             ->select('*')
             ->where('price','>=',$min)
             ->where('price','<=',$max)
             ->orderBy('price')
             ->get();
-        return view('shops.foodie', compact('food'));
+        return view('shops.foodie', compact('foodie'));
     }
 
 }

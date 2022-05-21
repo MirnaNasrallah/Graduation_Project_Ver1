@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> Main Page</a>
                     <span>Books</span>
                 </div>
             </div>
@@ -41,9 +41,9 @@
                                     <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <ul>
-                                                <li><a href="{{route('shopAuth1')}}">Paulo Coelho</a></li>
-                                                <li><a href="{{route('shopAuth2')}}">Kristin Hannah</a></li>
-                                                <li><a href="{{route('shopAuth3')}}">Marian Keyes</a></li>
+                                                <li><a href="{{ route('shopAuth1') }}">Paulo Coelho</a></li>
+                                                <li><a href="{{ route('shopAuth2') }}">Kristin Hannah</a></li>
+                                                <li><a href="{{ route('shopAuth3') }}">Marian Keyes</a></li>
 
                                             </ul>
                                         </div>
@@ -56,10 +56,10 @@
                                     <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <ul>
-                                                <li><a href="{{route('shopNovel')}}">Novel</a></li>
-                                                <li><a href="{{route('shopkidBooks')}}">Kids</a></li>
-                                                <li><a href="{{route('shopEdu')}}">Educational</a></li>
-                                                <li><a href="{{route('shopHistory')}}">History</a></li>
+                                                <li><a href="{{ route('shopNovel') }}">Novel</a></li>
+                                                <li><a href="{{ route('shopkidBooks') }}">Kids</a></li>
+                                                <li><a href="{{ route('shopEdu') }}">Educational</a></li>
+                                                <li><a href="{{ route('shopHistory') }}">History</a></li>
 
                                             </ul>
                                         </div>
@@ -81,7 +81,7 @@
                             <div class="range-slider">
                                 <div class="price-input">
                                     <p>Price:</p>
-                                    <form action="{{route('priceLimitBooks')}}" method="GET">
+                                    <form action="{{ route('priceLimitBooks') }}" method="GET">
                                         <input type="text" id="minamount" name="minamount">
                                         <input type="text" id="maxamount" name="maxamount">
                                         <br>
@@ -103,32 +103,71 @@
 
 
                         @if ($books->isNotEmpty())
-                            @foreach ($books as $item)
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ $item->book_img }}">
-                                        <div class="label new">New</div>
-                                        <ul class="product__hover">
-                                            <li><a href="img/shop/book_1.jpg" class="image-popup"><span
-                                                        class="arrow_expand"></span></a></li>
-                                            <li><a href="{{ url('addtowishlist') }}/{{ $item->id }}"><span
-                                                        class="icon_heart_alt"></span></a></li>
-                                            <li><a href="{{ url('addtocart') }}/{{ $item->id }}"><span
-                                                        class="icon_bag_alt"></span></a></li>
 
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">{{ $item->book_name }}</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                            @foreach ($books as $item)
+                                @if ($item->sale > 0)
+                                    <div class="product__item sale">
+                                        <div class="product__item__pic set-bg scaling"
+                                            data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
+                                            <div class="label sale">Sale {{ $item->sale }}%</div>
+                                            <ul class="product__hover">
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ url('addtowishlist') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
+                                                            class="icon_heart_alt"></span></a></li>
+                                                <li><a
+                                                        href="{{ url('addtoCart') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
+                                                            class="icon_bag_alt"></span></a></li>
+
+                                            </ul>
                                         </div>
-                                        <div class="product__price">${{ $item->price }}</div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ $item->book_name }}</a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="product__price">$ {{ $item->price }}
+                                                <span>$ {{ ($item->price * 100) / (100 - $item->sale) }}</span>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg"
+                                            data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
+                                            <ul class="product__hover">
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ url('addtowishlist') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
+                                                            class="icon_heart_alt"></span></a></li>
+                                                <li><a
+                                                        href="{{ url('addtoCart') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
+                                                            class="icon_bag_alt"></span></a></li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ $item->book_name }}</a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="product__price">${{ $item->price }}</div>
+                                        </div>
+                                    </div>
+                                @endif
                             @endforeach
                         @else
                             <div
@@ -139,12 +178,11 @@
 
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-    <!-- </div>
-    </div> -->
+
 </section>
 <!-- Shop Section End -->
 
