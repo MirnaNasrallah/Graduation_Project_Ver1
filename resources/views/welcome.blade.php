@@ -64,7 +64,7 @@
                         <div class="categories__text">
                             <h1>Wears store</h1>
                             <p>A Stylish Store With A Range Of Clothing That You'll Love. Searching for High Quality Clothes? Find What You're Looking for in Our Store.</p>
-                            <a href="#">Shop now</a>
+                            <a href="{{ url('wears') }}">Shop now</a>
                         </div>
                     </div>
                 </div>
@@ -74,8 +74,8 @@
                             <div class="categories__item set-bg" data-setbg="img/category-22.jpg">
                                 <div class="categories__text fourdiv">
                                     <h4>Food Market</h4>
-                                    <p>358 items</p>
-                                    <a href="#">Shop now</a>
+                                    <p>{{  DB::table('food')->count() }} items</p>
+                                    <a href="{{ url('foodie') }}">Shop now</a>
                                 </div>
                             </div>
                         </div>
@@ -83,8 +83,8 @@
                             <div class="categories__item set-bg" data-setbg="img/category-33.jpg">
                                 <div class="categories__text fourdiv">
                                     <h4>Book Store</h4>
-                                    <p>273 items</p>
-                                    <a href="#">Shop now</a>
+                                    <p>{{  DB::table('books')->count() }} items</p>
+                                    <a href="{{ url('books') }}">Shop now</a>
                                 </div>
                             </div>
                         </div>
@@ -92,8 +92,8 @@
                             <div class="categories__item set-bg" data-setbg="img/category-44.jpg">
                                 <div class="categories__text fourdiv">
                                     <h4>Drug Store</h4>
-                                    <p>159 items</p>
-                                    <a href="#">Shop now</a>
+                                    <p>{{  DB::table('drugs')->count() }} items</p>
+                                    <a href="{{ url('drugs') }}">Shop now</a>
                                 </div>
                             </div>
                         </div>
@@ -101,8 +101,8 @@
                             <div class="categories__item set-bg" data-setbg="img/category-55.jpg">
                                 <div class="categories__text fourdiv">
                                     <h4>Tech Store</h4>
-                                    <p>792 items</p>
-                                    <a href="#">Shop now</a>
+                                    <p>{{  DB::table('tech')->count() }} items</p>
+                                    <a href="{{ url('tech') }}">Shop now</a>
                                 </div>
                             </div>
                         </div>

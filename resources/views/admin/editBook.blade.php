@@ -73,7 +73,7 @@
                                     <option value="{{$books->author}}" selected>{{$books->author}}</option>
                                     <option value="Marian Keyes">Marian Keyes</option>
                                     <option value="Kristin Hannah">Kristin Hannah</option>
-                                    <option value="Marian Keyes">Marian Keyes</option>
+                                    <option value="Paulo Coelho">Paulo Coelho</option>
                                 </select>
                             </div>
                         </div>

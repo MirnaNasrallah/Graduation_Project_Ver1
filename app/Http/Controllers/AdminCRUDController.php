@@ -445,6 +445,8 @@ class AdminCRUDController extends Controller
         $books->product_name = $request->post('name', $books->product_name);
         $books->description = $request->post('description', $books->description);
         $books->price = $request->post('price', $books->price);
+      
+
 
         $books_sale = $request->post('sale', $books->sale);
 

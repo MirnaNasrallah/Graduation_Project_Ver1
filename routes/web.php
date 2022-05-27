@@ -147,7 +147,7 @@ Route::get('/xxl',[wearsController::class,'shopXXL'])->name('shopXXL');
 Route::get('books', [booksController::class, 'viewBooks'])->name('books');
 Route::get('/auth1', [booksController::class, 'shopAuth1'])->name('shopAuth1');
 Route::get('/auth2', [booksController::class, 'shopAuth2'])->name('shopAuth2');
-Route::get('/auth3', [booksController::class, 'shopAuth1'])->name('shopAuth3');
+Route::get('/auth3', [booksController::class, 'shopAuth3'])->name('shopAuth3');
 
 Route::get('/novel', [booksController::class, 'shopNovel'])->name('shopNovel');
 Route::get('/kids', [booksController::class, 'shopkidBooks'])->name('shopkidBooks');
