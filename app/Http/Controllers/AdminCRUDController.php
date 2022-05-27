@@ -7,7 +7,9 @@ use App\Models\Drugs;
 use App\Models\Foodie;
 use App\Models\Tech;
 use App\Models\Wears;
+use Faker\Provider\File as ProviderFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminCRUDController extends Controller
@@ -85,13 +87,16 @@ class AdminCRUDController extends Controller
                 $wears->sale = $wears_sale;
             }
         }
-        if ($request->hasFile('image')) {
+
+        if ($request->hasFile('product_img')) {
             $myFile = $request->file('product_img');
             $filename = $myFile->getClientOriginalName();
             $myFile->storeAs('public/images', $filename);
             $wears->product_img = $filename;
         }
 
+
+        $wears->quantity = $request->post('quantity', $wears->quantity);
         $wears->event = $request->post('event', $wears->event);
         $wears->category = $request->post('category', $wears->category);
         $wears->size = $request->post('size', $wears->size);
@@ -169,12 +174,13 @@ class AdminCRUDController extends Controller
                 $tech->sale = $tech_sale;
             }
         }
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('product_img')) {
             $myFile = $request->file('product_img');
             $filename = $myFile->getClientOriginalName();
             $myFile->storeAs('public/images', $filename);
             $tech->product_img = $filename;
         }
+        $tech->quantity = $request->post('quantity', $tech->quantity);
         $tech->category = $request->post('category', $tech->category);
         $tech->save();
         Alert::success('Congrats', 'Product Edited Successfully ');
@@ -259,12 +265,13 @@ class AdminCRUDController extends Controller
             }
         }
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('product_img')) {
             $myFile = $request->file('product_img');
             $filename = $myFile->getClientOriginalName();
             $myFile->storeAs('public/images', $filename);
             $drugs->product_img = $filename;
         }
+        $drugs->quantity = $request->post('quantity', $drugs->quantity);
         $drugs->genre = $request->post('genre', $drugs->genre);
         $drugs->save();
         Alert::success('Congrats', 'Product Edited Successfully ');
@@ -354,12 +361,13 @@ class AdminCRUDController extends Controller
                 $food->sale = $food_sale;
             }
         }
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('product_img')) {
             $myFile = $request->file('product_img');
             $filename = $myFile->getClientOriginalName();
             $myFile->storeAs('public/images', $filename);
             $food->product_img = $filename;
         }
+        $food->quantity = $request->post('quantity', $food->quantity);
         $food->category = $request->post('category', $food->category);
         $food->calories = $request->post('calories', $food->calories);
         $food->save();
@@ -449,12 +457,14 @@ class AdminCRUDController extends Controller
                 $books->sale = $books_sale;
             }
         }
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('product_img')) {
             $myFile = $request->file('product_img');
             $filename = $myFile->getClientOriginalName();
             $myFile->storeAs('public/images', $filename);
             $books->product_img = $filename;
         }
+
+        $books->quantity = $request->post('quantity', $books->quantity);
         $books->genre = $request->post('genre', $books->genre);
         $books->author = $request->post('author', $books->author);
         $books->save();

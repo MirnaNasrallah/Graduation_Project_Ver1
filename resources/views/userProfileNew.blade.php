@@ -1,5 +1,13 @@
 @extends('layouts.app')
 {{ View::make('header') }}
+
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output1');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+
 <!-- User-Profile Begin -->
 <div class="container light-style flex-grow-1 container-p-y">
     <!-- Profile Header Begin -->
@@ -13,17 +21,11 @@
             <!-- List Begin -->
             <div class="col-md-3">
                 <div class="list-group list-group-flush" role="tablist">
-                    <button class="list-group-item list-group-item-action active" id="account-general-list"
-                        href="#account-general" data-toggle="list" role="tab"
-                        aria-controls="account-general">General</button>
-                    <button class="list-group-item list-group-item-action" id="account-security-list"
-                        href="#account-security" data-toggle="list" role="tab"
-                        aria-controls="account-change-password">Security</button>
-                    <button class="list-group-item list-group-item-action" id="account-settings-list"
-                        href="#account-settings-security" data-toggle="list" role="tab" aria-controls="">Account
+                    <button class="list-group-item list-group-item-action active" id="account-general-list" href="#account-general" data-toggle="list" role="tab" aria-controls="account-general">General</button>
+                    <button class="list-group-item list-group-item-action" id="account-security-list" href="#account-security" data-toggle="list" role="tab" aria-controls="account-change-password">Security</button>
+                    <button class="list-group-item list-group-item-action" id="account-settings-list" href="#account-settings-security" data-toggle="list" role="tab" aria-controls="">Account
                         Settings</button>
-                    <button class="list-group-item list-group-item-action" id="" href="#" data-toggle="list" role="tab"
-                        aria-controls="">History</button>
+                    <button class="list-group-item list-group-item-action" id="" href="#" data-toggle="list" role="tab" aria-controls="">History</button>
                 </div>
             </div>
             <!-- List End -->
@@ -31,32 +33,31 @@
             <div class="col-md-9">
                 <div class="tab-content">
                     <!-- General Begin -->
-                    <div class="tab-pane fade active show" id="account-general" role="tabpanel"
-                        aria-labelledby="account-general-list">
+                    <div class="tab-pane fade active show" id="account-general" role="tabpanel" aria-labelledby="account-general-list">
 
 
                         <div class="card-body">
+                            <div class="header__logo">
+                                {{-- <a href="{{ url('/') }}"><img src="img/logo.png" alt=""></a> --}}
 
-                            <div class="col-xl-3 col-lg-2">
-                                <div class="header__logo">
-                                    {{-- <a href="{{ url('/') }}"><img src="img/logo.png" alt=""></a> --}}
+                                <form action="{{ route('imageupload') }}" method="POST" enctype="multipart/form-data">
+                                    <!-- edit : place top -->
+                                    @csrf
                                     @if (Auth::user()->image)
-                                        <img class="image rounded-circle"
-                                            src="{{ asset('/storage/images/' . Auth::user()->image) }}"
-                                            alt="profile_image"
-                                            style="width: 80px;height: 80px; padding: 10px; margin: 0px; ">
+                                    <!-- edit : add id -->
+                                    <img class="rounded-circle" id="output1" src="{{ asset('/storage/images/' . Auth::user()->image) }}" alt="profile_image" style="width: 100px;height: 100px;">
                                     @endif
 
-
-                                    <form action="{{ route('imageupload') }}" method="POST"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="file" name="image">
-                                        <input type="submit" value="Upload">
-                                    </form>
-
-
-                                </div>
+                                    <!-- edit : add label & a span in it for icon -->
+                                    <label for="file-upload" class="btn btn-outline-primary" style="margin-top: 0.5rem;margin-left: 5px;">
+                                        <span class="material-icons">
+                                            add_a_photo
+                                        </span>
+                                    </label>
+                                    <!-- edit : add onchange -->
+                                    <input type="file" name="image" id="file-upload" onchange="loadFile(event)" style="display: none;">
+                                    <input type="submit" class="btn btn-outline-primary btn" value="Upload">
+                                </form>
                             </div>
                             <form action="{{ route('user.update') }}" method="POST">
                                 @csrf
@@ -82,16 +83,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label"><strong>Interests</strong></label>
-                                    <input type="text" name="interests" class="form-control mb-1"
-                                        placeholder="Tell something about yourself">
+                                    <input type="text" name="interests" class="form-control mb-1" placeholder="Tell something about yourself">
                                 </div>
 
                                 <!-- Save Begin -->
 
                                 <div class="text-right mt-3">
-                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
 
-                                <button type="reset" class="btn btn-danger">Cancel</button>
+                                    <button type="reset" class="btn btn-danger">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -105,8 +105,7 @@
                     <!-- General End -->
 
                     <!-- Change Password Begin -->
-                    <div class="tab-pane fade" id="account-security" role="tabpanel"
-                        aria-labelledby="account-security-list">
+                    <div class="tab-pane fade" id="account-security" role="tabpanel" aria-labelledby="account-security-list">
                         <div class="card-body pb-2">
                             <div class="form-group">
                                 <label class="form-label"><strong>Current password</strong></label>
@@ -125,13 +124,12 @@
                             <button type="submit" class="btn btn-primary">Save changes</button>
 
                             <button type="reset" class="btn btn-danger">Cancel</button>
-                            </div>
+                        </div>
                     </div>
                     <!-- Change Password End -->
 
                     <!-- Account Settings Begin -->
-                    <div class="tab-pane fade" id="account-settings-security" role="tabpanel"
-                        aria-labelledby="account-settings-list">
+                    <div class="tab-pane fade" id="account-settings-security" role="tabpanel" aria-labelledby="account-settings-list">
                         <div class="card-body pb-2">
                             <div class="form-group">
                                 <label class="form-label"><strong>Username</strong></label>
@@ -148,7 +146,7 @@
                             <button type="submit" class="btn btn-primary">Save changes</button>
 
                             <button type="reset" class="btn btn-danger">Cancel</button>
-                            </div>
+                        </div>
                     </div>
 
                 </div>

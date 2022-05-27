@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminLoginController extends Controller
 {
@@ -35,12 +36,18 @@ class AdminLoginController extends Controller
         ]);
 
         $user = User::where('email', $request->input('email'))->first();
+        if($user === null)
+        {
+            Alert::error('Error', 'Incorrect Email or Password');
+            return back()->with('error', 'your username and password are wrong.');
+        }
         if(Hash::check($request->input('password'), $user->password) &&
         $user->level_id == 0 &&
          Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]))
         {
             return redirect()->route('AdminDashboard');
         } else {
+            Alert::error('Error', 'Incorrect Email or Password');
             return back()->with('error','your username and password are wrong.');
         }
 

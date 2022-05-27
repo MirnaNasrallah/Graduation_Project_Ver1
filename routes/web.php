@@ -96,9 +96,11 @@ Route::post('imageupload',  [HomeController::class, 'uploadImage'])->name('image
 
 
 //------------------------------SHOPS ROUTES---------------------------//
-
 Route::get('/search', [shopsController::class, 'searchIndex'])->name('search');
 Route::get('wears',[wearsController::class, 'viewWears'])->name('wears');
+// Route::get('checkout/{id}/{type}/{quantity}', [shopsController::class, 'ProceedToCheckout'])->name('checkout');
+// Route::get('coupon', [wearsController::class, 'Coupon'])->name('coupon');
+
 
 //-------------------------------WEARS NORMAL FILTERS---------------------------//
 
@@ -194,33 +196,34 @@ Route::get('/addtowishlist/{id}/{price}/{type}', [shopsController::class, 'addto
 Route::get('/deletefromcart/{id}', [shopsController::class, 'deletefromcart'])->name('deletefromcart');
 Route::get('/deletefromwishlist/{id}', [shopsController::class, 'deletefromwishlist'])->name('deletefromwishlist');
 
+Route::post('/updateqty/{id}', [shopsController::class, 'QtyUpdate'])->name('QtyUpdate');
 
 
-Route::get('cartFood', [shopsController::class, 'FoodCart'])->name('cartFood');
-Route::get('/addtocartFood/{id}', [shopsController::class, 'addtocartFood'])->name('addtocartFood');
-Route::post('/updateqtyFood/{id}', [shopsController::class, 'addFood'])->name('FoodQty.update');
-Route::get('/deletefromcartFood/{id}', [shopsController::class, 'deletefromcartFood'])->name('deletefromcartFood');
-
-
-
-Route::get('cartWears', [shopsController::class, 'WearsCart'])->name('cartWears');
-Route::get('/addtocartWears/{id}', [shopsController::class, 'addtocartWears'])->name('addtocartWears');
-Route::post('/updateqtyWears/{id}', [shopsController::class, 'addWears'])->name('WearsQty.update');
-Route::get('/deletefromcartWears/{id}', [shopsController::class, 'deletefromcartWears'])->name('deletefromcartWears');
+// Route::get('cartFood', [shopsController::class, 'FoodCart'])->name('cartFood');
+// Route::get('/addtocartFood/{id}', [shopsController::class, 'addtocartFood'])->name('addtocartFood');
+// Route::post('/updateqtyFood/{id}', [shopsController::class, 'addFood'])->name('FoodQty.update');
+// Route::get('/deletefromcartFood/{id}', [shopsController::class, 'deletefromcartFood'])->name('deletefromcartFood');
 
 
 
-Route::get('cartBook', [shopsController::class, 'BookCart'])->name('cartBook');
-Route::get('/addtocartBook/{id}/{price}', [shopsController::class, 'addtocartBook'])->name('addtocartBook');
-Route::post('/updateqtyBook/{id}', [shopsController::class, 'addBook'])->name('BookQty.update');
-Route::get('/deletefromcartBook/{id}', [shopsController::class, 'deletefromcartBook'])->name('deletefromcartBook');
+// Route::get('cartWears', [shopsController::class, 'WearsCart'])->name('cartWears');
+// Route::get('/addtocartWears/{id}', [shopsController::class, 'addtocartWears'])->name('addtocartWears');
+// Route::post('/updateqtyWears/{id}', [shopsController::class, 'addWears'])->name('WearsQty.update');
+// Route::get('/deletefromcartWears/{id}', [shopsController::class, 'deletefromcartWears'])->name('deletefromcartWears');
 
 
 
-Route::get('cartDrug', [shopsController::class, 'DrugCart'])->name('cartDrug');
-Route::get('/addtocartDrug/{id}', [shopsController::class, 'addtocartDrug'])->name('addtocartDrug');
-Route::post('/updateqtyDrug/{id}', [shopsController::class, 'addDrug'])->name('DrugQty.update');
-Route::get('/deletefromcartDrug/{id}', [shopsController::class, 'deletefromcartDrug'])->name('deletefromcartDrug');
+// Route::get('cartBook', [shopsController::class, 'BookCart'])->name('cartBook');
+// Route::get('/addtocartBook/{id}/{price}', [shopsController::class, 'addtocartBook'])->name('addtocartBook');
+// Route::post('/updateqtyBook/{id}', [shopsController::class, 'addBook'])->name('BookQty.update');
+// Route::get('/deletefromcartBook/{id}', [shopsController::class, 'deletefromcartBook'])->name('deletefromcartBook');
+
+
+
+// Route::get('cartDrug', [shopsController::class, 'DrugCart'])->name('cartDrug');
+// Route::get('/addtocartDrug/{id}', [shopsController::class, 'addtocartDrug'])->name('addtocartDrug');
+// Route::post('/updateqtyDrug/{id}', [shopsController::class, 'addDrug'])->name('DrugQty.update');
+// Route::get('/deletefromcartDrug/{id}', [shopsController::class, 'deletefromcartDrug'])->name('deletefromcartDrug');
 
 
 
@@ -230,31 +233,31 @@ Route::get('/deletefromcartDrug/{id}', [shopsController::class, 'deletefromcartD
 // Route::post('/updateqty/{id}', [shopsController::class, 'add'])->name('cartQty.update');
 // Route::get('/deletefromcart/{id}', [shopsController::class, 'deletefromcart'])->name('deletefromcart');
 //--------------------------WISHLIST----------------------------//
-Route::get('wishlist', [shopsController::class, 'wishlist'])->name('wishlist');
-Route::get('wishlistFood', [shopsController::class, 'wishFood'])->name('wishlistFood');
-Route::get('wishlistDrug', [shopsController::class, 'wishDrug'])->name('wishlistDrug');
+// Route::get('wishlist', [shopsController::class, 'wishlist'])->name('wishlist');
+// Route::get('wishlistFood', [shopsController::class, 'wishFood'])->name('wishlistFood');
+// Route::get('wishlistDrug', [shopsController::class, 'wishDrug'])->name('wishlistDrug');
 
-Route::get('wishlistTech', [shopsController::class, 'wishTech'])->name('wishlistTech');
+// Route::get('wishlistTech', [shopsController::class, 'wishTech'])->name('wishlistTech');
 
-Route::get('wishlistBook', [shopsController::class, 'wishBook'])->name('wishlistBook');
+// Route::get('wishlistBook', [shopsController::class, 'wishBook'])->name('wishlistBook');
 
-Route::get('wishlistWears', [shopsController::class, 'wishWears'])->name('wishlistWears');
+// Route::get('wishlistWears', [shopsController::class, 'wishWears'])->name('wishlistWears');
 
 
-Route::get('/addtowishlistFood/{name}', [shopsController::class, 'addtowishlistFood'])->name('addtowishlistFood');
-Route::get('/deletefromwishlistFood/{name}', [shopsController::class, 'deletefromwishlistFood'])->name('deletefromwishlistFood');
+// Route::get('/addtowishlistFood/{name}', [shopsController::class, 'addtowishlistFood'])->name('addtowishlistFood');
+// Route::get('/deletefromwishlistFood/{name}', [shopsController::class, 'deletefromwishlistFood'])->name('deletefromwishlistFood');
 
-Route::get('/addtowishlistDrug/{name}', [shopsController::class, 'addtowishlistDrug'])->name('addtowishlistDrug');
-Route::get('/deletefromwishlistDrug/{name}', [shopsController::class, 'deletefromwishlistDrug'])->name('deletefromwishlistDrug');
+// Route::get('/addtowishlistDrug/{name}', [shopsController::class, 'addtowishlistDrug'])->name('addtowishlistDrug');
+// Route::get('/deletefromwishlistDrug/{name}', [shopsController::class, 'deletefromwishlistDrug'])->name('deletefromwishlistDrug');
 
-Route::get('/addtowishlistTech/{name}', [shopsController::class, 'addtowishlistTech'])->name('addtowishlistTech');
-Route::get('/deletefromwishlistTech/{name}', [shopsController::class, 'deletefromwishlistTech'])->name('deletefromwishlistTech');
+// Route::get('/addtowishlistTech/{name}', [shopsController::class, 'addtowishlistTech'])->name('addtowishlistTech');
+// Route::get('/deletefromwishlistTech/{name}', [shopsController::class, 'deletefromwishlistTech'])->name('deletefromwishlistTech');
 
-Route::get('/addtowishlistWears/{name}', [shopsController::class, 'addtowishlistWears'])->name('addtowishlistWears');
-Route::get('/deletefromwishlistWears/{name}', [shopsController::class, 'deletefromwishlistWears'])->name('deletefromwishlistWears');
+// Route::get('/addtowishlistWears/{name}', [shopsController::class, 'addtowishlistWears'])->name('addtowishlistWears');
+// Route::get('/deletefromwishlistWears/{name}', [shopsController::class, 'deletefromwishlistWears'])->name('deletefromwishlistWears');
 
-Route::get('/addtowishlistBook/{name}', [shopsController::class, 'addtowishlistBook'])->name('addtowishlistBook');
-Route::get('/deletefromwishlistBook/{name}', [shopsController::class, 'deletefromwishlistBook'])->name('deletefromwishlistBook');
+// Route::get('/addtowishlistBook/{name}', [shopsController::class, 'addtowishlistBook'])->name('addtowishlistBook');
+// Route::get('/deletefromwishlistBook/{name}', [shopsController::class, 'deletefromwishlistBook'])->name('deletefromwishlistBook');
 
 //----------------------------PREMIUM USER-----------------------------//
 Route::get('/viewPremiumProfile',[PremiumUserController::class, 'viewProfile'])->name('viewPremiumProfile');

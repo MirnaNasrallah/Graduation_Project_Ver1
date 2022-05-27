@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class userRegisterController extends Controller
 {
@@ -27,7 +28,7 @@ class userRegisterController extends Controller
         $user->email = $request->email;
         $user->gender = $request->gender;
         $user->password = Hash::make($request->password);
-        
+
         // $user->role_id = 2;
         // $request->validate([
         //     'name' => 'required',
@@ -37,7 +38,7 @@ class userRegisterController extends Controller
         // $data = $request->all();
         // $check = $this->create($data);
         $user->save();
-
+        Alert::success('Success', 'Welcome Abourd !');
         return redirect()->route('user.login');
     }
 

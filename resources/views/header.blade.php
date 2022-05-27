@@ -63,12 +63,15 @@
                     @auth
                         @if (Auth::user()->level_id == '1')
                             <ul class="header__right__widget">
-                                <li><a href="{{ route('search') }}"><span class="icon_search search-switch"></span></li>
+
+                                <li><a href="{{ route('search') }}"><span class="icon_search"></span></li>
                                 <li><a href="{{ route('wishlist') }}"><span class="icon_heart_alt"></span>
-                                        <div class="tip">2</div>
+                                        <div class="tip">
+                                            {{ DB::table('wishlist')->where('user_id', Auth::user()->id)->count() }}</div>
                                     </a></li>
                                 <li><a href="{{ route('cart') }}"><span class="icon_bag_alt"></span>
-                                        <div class="tip">2</div>
+                                        <div class="tip">
+                                            {{ DB::table('cart')->where('user_id', Auth::user()->id)->count() }}</div>
                                     </a></li>
                             </ul>
                             <form action="{{ route('upgrade') }}">
@@ -76,12 +79,15 @@
                             </form>
                         @elseif (Auth::user()->level_id == '2')
                             <ul class="header__right__widget">
-                                <li><a href="{{ route('search') }}"><span class="icon_search search-switch"></span></li>
+
+                                <li><a href="{{ route('search') }}"><span class="icon_search"></span></li>
                                 <li><a href="{{ route('wishlist') }}"><span class="icon_heart_alt"></span>
-                                        <div class="tip">2</div>
+                                        <div class="tip">
+                                            {{ DB::table('wishlist')->where('user_id', Auth::user()->id)->count() }}</div>
                                     </a></li>
                                 <li><a href="{{ route('cart') }}"><span class="icon_bag_alt"></span>
-                                        <div class="tip">2</div>
+                                        <div class="tip">
+                                            {{ DB::table('cart')->where('user_id', Auth::user()->id)->count() }}</div>
                                     </a></li>
                             </ul>
                             <form action="{{ route('downgrade') }}">

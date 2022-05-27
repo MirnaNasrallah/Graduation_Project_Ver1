@@ -12,112 +12,146 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
-                    <span>Wishlist</span>
+                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <span>Cart</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Breadcrumb End -->
-<section class="shop spad">
+
+<!-- Shop Cart Section Begin -->
+
+<section class="shop-cart spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-9 col-md-9">
-                <div class="card-row ">
-                    <div class=" row row-cols-1 row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-                        <div class="col-lg-9 col-md-9">
-                            <div class="card-row ">
-                                <div class=" row row-cols-1 row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+            <div class="col-lg-9">
+                <div class="shop__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($cart->isNotEmpty())
+                                @foreach ($cart as $item)
+                                    <tr>
+                                        <td class="cart__product__item">
+                                            {{-- <img src="{{ $item->product_img }}" alt=""> --}}
+                                            <div class="product__item__pic set-bg scaling"
+                                                data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
+                                            </div>
 
+                                            <div class="product__item__text">
 
-                                    @if ($cart->isNotEmpty())
-                                        @foreach ($cart as $item)
-                                            <div class="product__item">
-                                                <div class="product__item__pic set-bg scaling"
-                                                    data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
-                                                    <div class="label new">New</div>
-                                                    <ul class="product__hover">
-                                                        <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
-                                                                class="image-popup"><span
-                                                                    class="arrow_expand"></span></a>
-                                                        </li>
-                                                        <li><a
-                                                                href="{{ url('deletefromcart') }}/{{ $item->id }}"><span
-                                                                    class="icon_trash_alt"></span></a></li>
-                                                        <li><a
-                                                                href="{{ url('addtowishlist') }}/{{ $item->id }}/{{ $item->price }}/{{ $item->type }}"><span
-                                                                    class="icon_heart_alt"></span></a></li>
+                                                <h6>{{ $item->product_name }}</h6>
+                                                <div class="rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
 
-                                                    </ul>
-                                                </div>
-                                                <div class="product__item__text">
-                                                    <h6><a href="#">{{ $item->product_name }}</a></h6>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                    <div class="product__price">{{ $item->price }}</div>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                    @else
-                                        <div
-                                            style="margin-left: auto; margin-right: auto; text-align: center; padding-top:20px; background-color: #ff00003d;">
-                                            <p>No products found!! Try search again.</p>
-                                        </div>
-                                    @endif
+                                        </td>
+                                        <td class="cart__price">{{ $item->price }}</td>
+                                        <td class="cart__quantity">
+                                            <form method="POST" action="{{ route('QtyUpdate', $item->id) }}">
+                                                @csrf
+                                                <div class="pro-qty">
+                                                    <input type="text" value="{{ $item->quantity }}" name="quantity">
+                                                </div>
+                                                <button type="submit" class="mainButton"></span>
+                                                    Save
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td class="cart__total">{{ $item->price }}</td>
+                                        <td class="cart__total">
+                                            {{ $item->subtotal }}</td>
 
-                                </div>
-                            </div>
-                        </div>
-
-
-                        {{-- <div class="product__item">
-
-                            @if ($wears->isNotEmpty())
-                                @foreach ($wears as $item)
-                                    <div class="product__item__pic set-bg" data-setbg="{{ $item->product_img }}">
-                                        <div class="label new">New</div>
-                                        <ul class="product__hover">
-                                            <li><a href="img/shop/shop-1.jpg" class="image-popup"><span
-                                                        class="arrow_expand"></span></a></li>
-                                            <li><a href="{{ url('deletefromwishlist') }}/{{ $item->id }}"><span
-                                                        class="icon_trash_alt"></span></a></li>
-                                            <li><a href="{{ url('addtocart') }}/{{ $item->id }}"><span
-                                                        class="icon_cart_alt"></span></a></li>
-
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">{{ $item->product_name }}</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">{{ $item->price }}</div>
-                                    </div>
+                                        <td><a href="{{ url('deletefromcart') }}/{{ $item->id }}"><span
+                                                    class="material-icons">delete</span></a></td>
+                                    </tr>
                                 @endforeach
-                            @else
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart__btn">
+                    <a href="{{ url('/') }}">Continue Shopping</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart__btn update__btn">
+                    <a href="#"><span class="icon_loading"></span> Update cart</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="discount__content">
+                    <h6>Discount codes</h6>
+                    <form action="#" method="GET">
+                        {{-- {{ route('coupon') }} --}}
+                        <input type="text" name="coupon" placeholder="Enter your coupon code">
+                        <button type="submit" class="site-btn">Apply</button>
+                    </form>
+
+
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-2">
+                <div class="cart__total__procced">
+                    {{-- @if ($coupon->isNotEmpty())
+
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Subtotal <span>$ {{$item->sum('subtotal')}}</span></li>
+                        @php
+                            $final_price=$item->sum('subtotal')-($item->sum('subtotal')*(0.1));
+                        @endphp
+                        <li>Total <span>$  {{$final_price}}</span></li>
+                    </ul>
+                    <a href="{{ url('checkout') }}/{{ $item->id }}/{{ $item->type }}/{{ $item->quantity }}" class="primary-btn">Proceed to checkout</a>
+                </div>
+                @else --}}
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Subtotal <span>$ {{ $item->sum('subtotal') }}</span></li>
+
+                        <li>Total <span>$ {{ $item->sum('subtotal') }}</span></li>
+                    </ul>
+                    <a href="#" class="primary-btn">Proceed to checkout</a>
+{{-- {{ url('checkout') }}/{{ $item->id }}/{{ $item->type }}/{{ $item->quantity }}        --}}
+         </div>
+                        @else
                                 <div
                                     style="margin-left: auto; margin-right: auto; text-align: center; padding-top:20px; background-color: #ff00003d;">
-                                    <p>No wears found!! Try search again.</p>
+                                    <p>No products found!! Try search again.</p>
                                 </div>
                             @endif
-                        </div> --}}
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </section>
-{{ View::make('footer') }}
+
+<!-- Shop Cart Section End -->
+
+
 
 <!-- Search Begin -->
 <div class="search-model">

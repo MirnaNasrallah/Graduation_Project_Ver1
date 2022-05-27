@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="{{url('/')}}"><i class="fa fa-home"></i> Main Page</a>
+                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> Main Page</a>
                     <span>Books</span>
                 </div>
             </div>
@@ -85,7 +85,8 @@
                                         <input type="text" id="minamount" name="minamount">
                                         <input type="text" id="maxamount" name="maxamount">
                                         <br>
-                                        <button type="submit" class="primary-btn">Filter</button>
+                                        <button type="submit" class="mainButton mt-4"
+                                            style="width: 100%;">Filter</button>
                                         <br>
                                     </form>
                                 </div>
@@ -98,9 +99,8 @@
             </div>
 
             <div class="col-lg-9 col-md-9">
-                <form action="{{ route('createBook') }}" method="get">
-
-                    <button type="submit" class="btn btn-primary"> Create new Product</button>
+                <form class="d-flex justify-content-center" action="{{ route('createBook') }}" method="get">
+                    <button type="submit" class="mainButton mt-4" style="width: 50%;"> Create new Product</button>
                 </form>
                 <div class="card-row ">
                     <div class=" row row-cols-1 row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
@@ -109,24 +109,25 @@
                         @if ($books->isNotEmpty())
 
                             @foreach ($books as $item)
-                                @if ($item->sale > 0)
+                                @if ($item->sale > 0 && $item->quantity > 0)
                                     <div class="product__item sale">
-                                        <div class="product__item__pic set-bg scaling"
+                                        <div class="product__item__pic set-bg scaling mr-3"
                                             data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
                                             <div class="label sale">Sale {{ $item->sale }}%</div>
                                             <ul class="product__hover">
-                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}" class="image-popup"><span
-                                                            class="arrow_expand"></span></a></li>
-                                                            <li><a href="{{ url('destroyBook') }}/{{ $item->id }}"><span
-                                                                class="icon_trash_alt"></span></a></li>
-                                                                <li><a href="{{ url('editBook') }}/{{ $item->id }}"><span
-                                                                    class="icon_pencil-edit_alt"></span></a></li>
-    
-    
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a href="{{ url('destroyBook') }}/{{ $item->id }}"><span
+                                                            class="icon_trash_alt"></span></a></li>
+                                                <li><a href="{{ url('editBook') }}/{{ $item->id }}"><span
+                                                            class="icon_pencil-edit_alt"></span></a></li>
+
+
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
-                                            <h6><a href="#">{{ $item->book_name }}</a></h6>
+                                            <h6><a href="#">{{ $item->product_name }}</a></h6>
                                             <div class="rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -135,28 +136,29 @@
                                                 <i class="fa fa-star"></i>
                                             </div>
                                             <div class="product__price">$ {{ $item->price }}
-                                                <span>$ {{ $item->price * 100 / (100 - $item->sale) }}</span>
+                                                <span>$ {{ ($item->price * 100) / (100 - $item->sale) }}</span>
                                             </div>
 
                                         </div>
                                     </div>
-                                @else
+                                @elseif ($item->sale == 0 && $item->quantity > 0)
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg"
+                                        <div class="product__item__pic set-bg mr-3"
                                             data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
                                             <ul class="product__hover">
-                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}" class="image-popup"><span
-                                                            class="arrow_expand"></span></a></li>
-                                                            <li><a href="{{ url('destroyBook') }}/{{ $item->id }}"><span
-                                                                class="icon_trash_alt"></span></a></li>
-                                                                <li><a href="{{ url('editBook') }}/{{ $item->id }}"><span
-                                                                    class="icon_pencil-edit_alt"></span></a></li>
-    
-    
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a href="{{ url('destroyBook') }}/{{ $item->id }}"><span
+                                                            class="icon_trash_alt"></span></a></li>
+                                                <li><a href="{{ url('editBook') }}/{{ $item->id }}"><span
+                                                            class="icon_pencil-edit_alt"></span></a></li>
+
+
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
-                                            <h6><a href="#">{{ $item->book_name }}</a></h6>
+                                            <h6><a href="#">{{ $item->product_name }}</a></h6>
                                             <div class="rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -165,6 +167,65 @@
                                                 <i class="fa fa-star"></i>
                                             </div>
                                             <div class="product__price">${{ $item->price }}</div>
+                                        </div>
+                                    </div>
+                                @elseif ($item->sale == 0 && $item->quantity == 0)
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg mr-3"
+                                            data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
+                                            <div class="label stockout">Out Of Stock</div>
+
+
+                                            <ul class="product__hover">
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a href="{{ url('destroyBook') }}/{{ $item->id }}"><span
+                                                            class="icon_trash_alt"></span></a></li>
+                                                <li><a href="{{ url('editBook') }}/{{ $item->id }}"><span
+                                                            class="icon_pencil-edit_alt"></span></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ $item->product_name }}</a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="product__price">${{ $item->price }}</div>
+                                        </div>
+                                    </div>
+                                 @elseif ($item->sale > 0 && $item->quantity == 0)
+                                     <div class="product__item ">
+                                        <div class="product__item__pic set-bg mr-3"
+                                            data-setbg="{{ asset('storage/images/' . $item->product_img) }}">
+                                            <div class="label stockout">Out Of Stock with Sale {{ $item->sale }}% </div>
+                                           
+                                            <ul class="product__hover">
+                                                <li><a href="{{ asset('storage/images/' . $item->product_img) }}"
+                                                        class="image-popup"><span class="arrow_expand"></span></a>
+                                                </li>
+                                                <li><a href="{{ url('destroyBook') }}/{{ $item->id }}"><span
+                                                            class="icon_trash_alt"></span></a></li>
+                                                <li><a href="{{ url('editBook') }}/{{ $item->id }}"><span
+                                                            class="icon_pencil-edit_alt"></span></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ $item->product_name }}</a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="product__price">$ {{ $item->price }}
+                                                <span>$ {{ ($item->price * 100) / (100 - $item->sale) }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 @endif

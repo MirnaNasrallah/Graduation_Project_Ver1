@@ -8,8 +8,7 @@
                     <div class="footer__logo">
                         <a href="./index.html"><img src="img/logo.png" alt=""></a>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    cilisis.</p>
+                    <p>Virtual Mall on your Portable device as you go, Click and buy !.</p>
                     <div class="footer__payment">
                         <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
                         <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
@@ -23,10 +22,11 @@
                 <div class="footer__widget">
                     <h6>Quick links</h6>
                     <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blogs</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="{{ url('wears') }}">Wears</a></li>
+                            <li><a href="{{ url('books') }}">Books</a></li>
+                            <li><a href="{{ url('drugs') }}">Drug store</a></li>
+                            <li><a href="{{ url('tech') }}">Tech</a></li>
+                            <li><a href="{{ url('foodie') }}">Foodie</a></li>
                     </ul>
                 </div>
             </div>
@@ -49,6 +49,7 @@
                         <button type="submit" class="site-btn">Subscribe</button>
                     </form>
                     <div class="footer__social">
+                        <h6>For Customer Service Please Contact Us</h6>
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
                         <a href="#"><i class="fa fa-youtube-play"></i></a>

@@ -45,6 +45,29 @@ class shopsController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    //----------------------------SEARCH---------------------------------------//
+
+    // public function Coupon(Request $request)
+    // {
+    //     $coupon = $request->input('coupon');
+    //     Alert::success('Congratulations', 'You got a 10% discount');
+    //     return view('shops.cart', compact('coupon'));
+    //     // return redirect()->back()->withSuccess('Congratulations', 'You got a 10% discount');
+
+    // }
+
+    public function searchIndex(Request $request)
+    {
+        $search = $request->input('search');
+        $tech = Tech::query()->where('product_name', 'LIKE', '%' . $search . '%')->orWhere('description', 'LIKE', '%' . $search . '%')->orWhere('price', 'LIKE', '%' . $search . '%')->get();
+        $wears = Wears::query()->where('product_name', 'LIKE', '%' . $search . '%')->orWhere('description', 'LIKE', '%' . $search . '%')->orWhere('price', 'LIKE', '%' . $search . '%')->orWhere('color', 'LIKE', '%' . $search . '%')->orWhere('gender', 'LIKE', '%' . $search . '%')->get();
+        $books = Books::query()->where('product_name', 'LIKE', '%' . $search . '%')->orWhere('description', 'LIKE', '%' . $search . '%')->orWhere('price', 'LIKE', '%' . $search . '%')->get();
+        $drugs = Drugs::query()->where('product_name', 'LIKE', '%' . $search . '%')->orWhere('description', 'LIKE', '%' . $search . '%')->orWhere('price', 'LIKE', '%' . $search . '%')->get();
+        $food = Foodie::query()->where('product_name', 'LIKE', '%' . $search . '%')->orWhere('description', 'LIKE', '%' . $search . '%')->orWhere('price', 'LIKE', '%' . $search . '%')->get();
+
+        $product = $tech->merge($wears)->merge($books)->merge($drugs)->merge($food);
+        return view('shops.search', compact('product'));
+    }
 
 
     public function Cart()
@@ -56,6 +79,79 @@ class shopsController extends BaseController
         }
         return redirect("login");
     }
+
+
+    public function ProceedToCheckout($id, $type,$quantity)
+    {
+        // $cart = Cart::find($id);
+        // $cart = Cart::where('user_id', Auth::user()->id)
+        //     ->where('product_id', $id)->where('type', $type)->where('quantity', $quantity)->first();
+        $cart = Cart::where('id', $id)->where('type', $type)->where('quantity', $quantity)->first();
+        $product_id=$cart->product_id;
+        if ($type == 'wears') {
+            $product = Wears::where('id', $product_id)->first();
+            if($cart->quantity > $product->quantity) {
+                Alert::error('Sorry', 'This quantity exceeds the stock ');
+                return redirect()->back();
+            }
+            else {
+                $product->quantity = ($product->quantity) - $cart->quantity;
+                $product->save();
+
+                return view('shops.paypal');
+            }
+
+        } elseif ($type == 'books') {
+            $product = Books::where('id', $product_id)->first();
+            if ($cart->quantity > $product->quantity) {
+                Alert::success('Sorry', 'This quantity exceeds the stock ');
+                return redirect()->back();
+            } else {
+                $product->quantity = ($product->quantity) - ($cart->quantity);
+                $product->save();
+
+                return view('shops.paypal');
+            }
+        } elseif ($type == 'tech') {
+            $product = Tech::where('id', $product_id)->first();
+            if ($cart->quantity > $product->quantity) {
+                Alert::success('Sorry', 'This quantity exceeds the stock ');
+                return redirect()->back();
+            } else {
+                $product->quantity = ($product->quantity) - $cart->quantity;
+                $product->save();
+
+                return view('shops.paypal');
+            }
+        } elseif ($type == 'drugs') {
+            $product = Drugs::where('id', $product_id)->first();
+            if ($cart->quantity > $product->quantity) {
+                Alert::success('Sorry', 'This quantity exceeds the stock ');
+                return redirect()->back();
+            } else {
+                $product->quantity= ($product->quantity)- $cart->quantity;
+                $product->save();
+
+                return view('shops.paypal');
+            }
+        } elseif ($type == 'food') {
+            $product = Foodie::where('id', $product_id)->first();
+            if ($cart->quantity > $product->quantity) {
+                Alert::success('Sorry', 'This quantity exceeds the stock ');
+                return redirect()->back();
+            } else {
+                $product->quantity = ($product->quantity) - $cart->quantity;
+                $product->save();
+
+                return view('shops.paypal');
+            }
+            }
+
+
+
+
+
+     }
     public function addtocart(Request $request, $id, $price, $type)
     {
 
@@ -65,24 +161,49 @@ class shopsController extends BaseController
             //     ->where('product_id', $id)->first();
             if (
                 Cart::where('user_id', Auth::user()->id)
-                ->where('product_id', $id)->where('type',$type)->count() == 0
+                ->where('product_id', $id)->where('type', $type)->count() == 0
             ) {
                 $c = new Cart();
                 if ($type == 'wears') {
                     $product = Wears::find($id);
                     $c->product_img = $product->product_img;
+                    $c->price = $product->price;
+                    if ($product->quantity == 0) {
+                        Alert::error('Sorry', 'This Item is out of stock ');
+                        return redirect()->back();
+                    }
                 } elseif ($type == 'books') {
                     $product = Books::find($id);
                     $c->product_img = $product->product_img;
+                    $c->price = $product->price;
+                    if ($product->quantity == 0) {
+                        Alert::error('Sorry', 'This Item is out of stock ');
+                        return redirect()->back();
+                    }
                 } elseif ($type == 'tech') {
                     $product = Tech::find($id);
                     $c->product_img = $product->product_img;
+                    $c->price = $product->price;
+                    if ($product->quantity == 0) {
+                        Alert::error('Sorry', 'This Item is out of stock ');
+                        return redirect()->back();
+                    }
                 } elseif ($type == 'drugs') {
                     $product = Drugs::find($id);
                     $c->product_img = $product->product_img;
+                    $c->price = $product->price;
+                    if ($product->quantity == 0) {
+                        Alert::error('Sorry', 'This Item is out of stock ');
+                        return redirect()->back();
+                    }
                 } elseif ($type == 'food') {
                     $product = Foodie::find($id);
                     $c->product_img = $product->product_img;
+                    $c->price = $product->price;
+                    if ($product->quantity == 0) {
+                        Alert::error('Sorry', 'This Item is out of stock ');
+                        return redirect()->back();
+                    }
                 }
 
 
@@ -105,6 +226,18 @@ class shopsController extends BaseController
             return redirect('login')->withSuccess('login first');
         }
     }
+    public function QtyUpdate(Request $request, $id)
+    {
+
+        $user_id = Auth::id();
+
+        $cart = Cart::where([['user_id', $user_id], ['id', $id]])->firstorfail();
+        $cart->quantity = $request['quantity'];
+        $cart['subtotal'] = ($cart->quantity * $cart->price);
+        // $cart->subtotal=$request['quantity']*$request['price'];
+        $cart->save();
+        return redirect()->back()->withSuccess('Updated Successfully');
+    }
 
 
     public function wishlist()
@@ -121,7 +254,7 @@ class shopsController extends BaseController
         if (Auth::check()) {
             if (
                 Wishlist::where('user_id', Auth::user()->id)
-                ->where('product_id', $id)->where('type',$type)->count() == 0
+                ->where('product_id', $id)->where('type', $type)->count() == 0
             ) {
 
                 $wish = new Wishlist();
@@ -147,7 +280,7 @@ class shopsController extends BaseController
                 $wish->save();
 
                 $wishlist = Wishlist::where('user_id', Auth::user()->id)->get();
-                Alert::success('Congrats', 'Product Edited Successfully ');
+                Alert::success('Congrats', 'Product Added Successfully ');
                 return redirect()->back();
             } else {
 
@@ -179,6 +312,7 @@ class shopsController extends BaseController
         Alert::success('Success', 'Product Deleted Successfully ');
         return redirect()->route('wishlist');
     }
+
     //     public function TechCart()
     //     {
     //         if (Auth::check()) {
@@ -730,16 +864,5 @@ class shopsController extends BaseController
 
 
 
-    //     //----------------------------SEARCH---------------------------------------//
 
-    //     public function searchIndex()
-    //     {
-    //         $keyword = request('search-input');
-    //         $wears = Wears::where('product_name', 'LIKE', '%' . $keyword . '%')
-    //             ->orWhere('description', 'LIKE', '%' . $keyword . '%')
-    //             ->orWhere('price', 'LIKE', '%' . $keyword . '%')
-    //             ->orWhere('event', 'LIKE', '%' . $keyword . '%')
-    //             ->get();
-    //         return view('shops.search', compact('wears'));
-    //     }
 }
